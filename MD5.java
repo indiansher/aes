@@ -16,7 +16,7 @@ public class MD5 {
   
     public static void main(String args[]) throws Exception 
     { 
-        String hexInput = "1420758261b317f1983c23c15261516b";
+        String hexInput = "f5dad49535d9614c74f42c4b821d9c47";
         byte[] input = DatatypeConverter.parseHexBinary(hexInput);
         System.out.println(getMd5(input));
     } 
