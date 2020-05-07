@@ -28,10 +28,10 @@ public class AES {
     }
     
     public static void main(String[] args) throws Exception {
-        String keyHex = "5dfeaf1d99dc89f5ea3ab2fae71bb6cb";
+        String keyHex = "f5dad49535d9614c74f42c4b821d9c47";
     
         // Encryption
-        String inputHex = "5dfeaf1d99dc89f5ea3ab2fae71bb6cb";
+        String inputHex = "f5dad49535d9614c74f42c4b821d9c47";
         byte[] key = DatatypeConverter.parseHexBinary(keyHex);
         byte[] input = DatatypeConverter.parseHexBinary(inputHex);
         String encrypted = AES.encrypt(input, key);
