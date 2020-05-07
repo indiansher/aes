@@ -2,7 +2,7 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
- 
+
 /**
  * Simple AES encryption decryption methods.
  * 
@@ -10,31 +10,36 @@ import javax.xml.bind.DatatypeConverter;
  * Output will also be in hexadecimal form.
  */
 public class AES {
-
-    public static SecretKey toKey(String hexKey) {
-        return new SecretKeySpec(DatatypeConverter.parseHexBinary(hexKey), "AES");
-    }
  
-    public static String encrypt(String plaintextHex, String hexKey) throws Exception {
+    public static String encrypt(byte[] input, byte[] key) throws Exception {
+        SecretKey secretKey = new SecretKeySpec(key, "AES");
         Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
-        cipher.init(Cipher.ENCRYPT_MODE, AES.toKey(hexKey));
-        byte[] result = cipher.doFinal(DatatypeConverter.parseHexBinary(plaintextHex));
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+        byte[] result = cipher.doFinal(input);
         return DatatypeConverter.printHexBinary(result);
     }
- 
-    public static String decrypt(String plaintextHex, String hexKey) throws Exception {
+    
+    public static String decrypt(byte[] input, byte[] key) throws Exception {
+        SecretKey secretKey = new SecretKeySpec(key, "AES");
         Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
-        cipher.init(Cipher.DECRYPT_MODE, AES.toKey(hexKey));
-        byte[] result = cipher.doFinal(DatatypeConverter.parseHexBinary(plaintextHex));
+        cipher.init(Cipher.DECRYPT_MODE, secretKey);
+        byte[] result = cipher.doFinal(input);
         return DatatypeConverter.printHexBinary(result);
     }
     
     public static void main(String[] args) throws Exception {
-        final String keyHex = "5dfeaf1d99dc89f5ea3ab2fae71bb6cb";
-        final String plaintextHex = "5dfeaf1d99dc89f5ea3ab2fae71bb6cb";
-        String encrypted = AES.encrypt(plaintextHex, keyHex);
-        String decrypted = AES.decrypt(encrypted, keyHex);
+        String keyHex = "5dfeaf1d99dc89f5ea3ab2fae71bb6cb";
+    
+        // Encryption
+        String inputHex = "5dfeaf1d99dc89f5ea3ab2fae71bb6cb";
+        byte[] key = DatatypeConverter.parseHexBinary(keyHex);
+        byte[] input = DatatypeConverter.parseHexBinary(inputHex);
+        String encrypted = AES.encrypt(input, key);
         System.out.println(encrypted);
+        
+        // Decryption
+        input = DatatypeConverter.parseHexBinary(encrypted);
+        String decrypted = AES.decrypt(input, key);
         System.out.println(decrypted);
     }
 }
